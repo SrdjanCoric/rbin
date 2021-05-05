@@ -1,22 +1,24 @@
-import axios from 'axios'
+import axios from "axios";
 
 const get = (slug) => {
-  const request = axios.get(`/data/${slug}`)
-  return request.then(response => {
-    return response.data
-  }).catch(err => {
-    console.log(err)
-  })
-}
+  const request = axios.get(`/api/data/${slug}`);
+  return request
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 const create = () => {
-  const request = axios.post('/tubs')
-  return request.then(response => response.data.uri)
-}
+  const request = axios.post("/api/tubs");
+  return request.then((response) => response.data.uri);
+};
 
 const bins = {
   get,
-  create
-}
+  create,
+};
 
-export default bins
+export default bins;
