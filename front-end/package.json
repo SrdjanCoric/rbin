@@ -20,8 +20,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject",
-    "dev": "concurrently \"npm run start\" \"cd .. && npm start\""
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
