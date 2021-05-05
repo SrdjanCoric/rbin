@@ -39,6 +39,11 @@ app.post("/tubs", async (req, res) => {
     console.error(err.message);
   }
 });
+app.get("/otherplace", async (req, res) => {
+  res.json({
+    item: "thing",
+  });
+});
 
 // return the json of requests data
 app.get("/data/:slug", async (req, res) => {
@@ -46,7 +51,11 @@ app.get("/data/:slug", async (req, res) => {
   const sql = "SELECT requests FROM bins WHERE slug = $1";
   const values = [_slug];
   const { rows } = await pool.query(sql, values);
-  res.json(rows[0]);
+  if (!rows[0].requests.length) {
+    res.json([]);
+  } else {
+    res.json(rows[0]);
+  }
 });
 
 methods = ["get", "post", "put", "patch", "delete"];

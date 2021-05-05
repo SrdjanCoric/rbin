@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const get = (slug) => {
-  const request = axios.get(`/api/data/${slug}`);
+  const request = axios.get(`/data/${slug}`);
   return request
     .then((response) => {
       return response.data;
@@ -12,7 +12,7 @@ const get = (slug) => {
 };
 
 const create = () => {
-  const request = axios.post("/api/tubs");
+  const request = axios.post("/tubs");
   return request.then((response) => response.data.uri);
 };
 
