@@ -14,7 +14,7 @@ const io = socketIo(server);
 app.use(cors());
 app.use(express.json());
 
-app.use(express.static("build"));
+app.use(express.static("./build"));
 
 io.on("connection", (socket) => {
   console.log("New client");
@@ -24,11 +24,11 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/api/tub/:slug", (req, res) => {
+app.get("/tub/:slug", (req, res) => {
   res.sendFile(path.join(__dirname, "/build", "index.html"));
 });
 
-app.post("/api/tubs", async (req, res) => {
+app.post("/tubs", async (req, res) => {
   try {
     const newSlug = nanoid();
     const sql = "INSERT INTO bins (slug) VALUES($1)";
@@ -41,7 +41,7 @@ app.post("/api/tubs", async (req, res) => {
 });
 
 // return the json of requests data
-app.get("/api/data/:slug", async (req, res) => {
+app.get("/data/:slug", async (req, res) => {
   const _slug = req.params.slug;
   const sql = "SELECT requests FROM bins WHERE slug = $1";
   const values = [_slug];
@@ -90,12 +90,6 @@ methods.forEach((method) => {
       res.status(204).end();
     }
   });
-});
-
-app.use(express.static(path.join(__dirname, "build")));
-
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 const PORT = process.env.PORT || 4000;
