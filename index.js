@@ -92,5 +92,11 @@ methods.forEach((method) => {
   });
 });
 
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => console.log(`#4ize on port ${PORT}`));
