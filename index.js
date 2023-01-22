@@ -19,7 +19,6 @@ app.use(express.static("./build"));
 io.on("connection", (socket) => {
   console.log("New client");
   socket.on("NewClient", (slug) => {
-    console.log("slug: ", slug);
     socket.join(slug);
   });
 });
@@ -71,11 +70,11 @@ methods.forEach((method) => {
     request.query_params = req.query;
     console.log(request);
 
-    const {
-      rows,
-    } = await pool.query("SELECT requests FROM bins WHERE slug = $1", [slug]);
+    const { rows } = await pool.query(
+      "SELECT requests FROM bins WHERE slug = $1",
+      [slug]
+    );
 
-    console.log("rows", rows);
     if (!rows[0]) {
       console.log(`bad request to non-existent tub ${slug}`);
       res.status(404).end();
@@ -88,12 +87,10 @@ methods.forEach((method) => {
       if (prevRequests.length > 20) {
         prevRequests = prevRequests.slice(0, 20);
       }
-      //console.log(prevRequests);
 
       const sql = "UPDATE bins SET requests = $1 WHERE slug = $2 RETURNING *";
       const values = [JSON.stringify(prevRequests), slug];
       const newReq = await pool.query(sql, values);
-      //console.log(newReq.rows[0]);
       io.to(slug).emit("UpdateTub", { requests: prevRequests });
 
       res.status(204).end();
